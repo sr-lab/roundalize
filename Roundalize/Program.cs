@@ -24,7 +24,7 @@ namespace Roundalize
         {
             // Check file was specified.
             var precision = 5;
-            if (args.Length != 2 || !int.TryParse(args[1], precision))
+            if (args.Length != 2 || !int.TryParse(args[1], out precision))
             {
                 Console.WriteLine("Usage: Roundalize <file> <precision>");
                 return;
