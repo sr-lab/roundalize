@@ -22,23 +22,33 @@ namespace Roundalize
 
         static void Main(string[] args)
         {
-            // Check file was specified.
-            var precision = 5;
-            if (args.Length != 2 || !int.TryParse(args[1], out precision))
+            // Print usage if no arguments provided.
+            if (args.Length < 1)
             {
-                Console.WriteLine("Usage: Roundalize <file> <precision>");
+                Console.WriteLine("Usage: Roundalize <file> [precision]");
                 return;
             }
 
             // Check file exists.
-            if (!File.Exists(args[0]))
+            var path = args[0];
+            if (!File.Exists(path))
             {
-                Console.WriteLine("Could not read input file.");
+                Console.WriteLine($"Could not read input file '{path}'.");
                 return;
             }
 
+            // Try to parse precision option.
+            var precision = 5;
+            if (args.Length == 2)
+            {
+                if (!int.TryParse(args[1], out precision))
+                {
+                    Console.WriteLine($"Could not parse '{args[1]}' as number. Using default precision {precision} instead.");
+                }
+            }
+
             // Read all entries.
-            var entries = ReadFileAsLines(args[0]);
+            var entries = ReadFileAsLines(path);
 
             // For each row.
             foreach (var entry in entries)
